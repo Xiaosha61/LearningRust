@@ -12,11 +12,16 @@ fn main() {
         println!("Please input your guess.");
         let mut guess = String::new();
 
-        let return_from_read_line = stdin().read_line(&mut guess)
+        let _return_from_read_line = stdin().read_line(&mut guess)
             .expect("Failed to read line"); // result is the length of the input.
 
-        let guess: u32 = match guess.trim().parse() // shadowing
-            .expect("Please type a number!");
+        let guess: u32 = match guess.trim().parse() {// shadowing
+            Ok(num) => num,
+            Err(reason) => {
+                println!("Input not accepted: {}", reason);
+                continue;
+            }
+        };
 
         println!("You guessed: {}", guess);
         match guess.cmp(&secret_number) {
@@ -27,7 +32,7 @@ fn main() {
                 break;
             },
         }
-        println!("P.S. return_from_read_line = {}", return_from_read_line);
+        // println!("P.S. _return_from_read_line = {}", return_from_read_line);
     };
 
 }
